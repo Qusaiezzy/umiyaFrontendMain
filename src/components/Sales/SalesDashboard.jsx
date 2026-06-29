@@ -1,5 +1,5 @@
-import CreateCustomer from "../Sales/CreateCustomer";
-import CustomerList from "../Sales/CustomerList";
+import CreateCustomer from "./CreateCustomer";
+import CustomerList from "./CustomerList";
 import { useNavigate } from "react-router-dom";
 
 
