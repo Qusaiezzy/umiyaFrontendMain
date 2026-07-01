@@ -17,6 +17,7 @@ export default function UserData() {
     const [meteringFilter, setMeteringFilter] = useState("");
     const [selectedCustomer, setSelectedCustomer] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    const [showFilters, setShowFilters] = useState(false);
 
     const getCustomers = useCallback(async () => {
         try {
@@ -128,8 +129,18 @@ export default function UserData() {
 
     return (
         <div>
-            <h1 className="mb-6 text-3xl font-bold">Customer Data</h1>
+            <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <h1 className="text-3xl font-bold">Customer Data</h1>
 
+                <button
+                    onClick={() => setShowFilters((value) => !value)}
+                    className="w-full rounded-lg bg-gray-900 px-5 py-3 font-semibold text-white transition hover:bg-gray-700 sm:w-auto"
+                >
+                    {showFilters ? "Hide Filters" : "Filter"}
+                </button>
+            </div>
+
+            {showFilters && (
             <div className="mb-5 grid grid-cols-1 gap-4 rounded-xl bg-white p-4 shadow sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 <div>
                     <label htmlFor="customer-search" className="mb-1 block text-sm font-semibold text-gray-700">
@@ -137,7 +148,7 @@ export default function UserData() {
                     </label>
                     <input
                         id="customer-search"
-                        placeholder="Search customer"
+                        placeholder="Search by name or mobile number"
                         value={search}
                         onChange={(e) => {
                             setPage(1);
@@ -281,6 +292,7 @@ export default function UserData() {
                     </select>
                 </div>
             </div>
+            )}
 
             <div className="overflow-x-auto rounded-xl bg-white shadow">
                 <table className="min-w-full">

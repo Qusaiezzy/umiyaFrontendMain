@@ -1,32 +1,17 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import api from "../../api/axios";
 
 export default function CreateCustomer() {
-  const [rate, setRate] = useState("");
   const [error, setError] = useState("");
   const [form, setForm] = useState({
     customerName: "",
     address: "",
     mobile: "",
     requirement: "",
+    rate: "",
     status: "confirmed",
     followUpDate: "",
   });
-
-  useEffect(() => {
-    api
-      .get("/rate", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((res) => {
-        setRate(res.data.amount);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
 
   const change = (e) => {
     setError("");
@@ -44,6 +29,7 @@ export default function CreateCustomer() {
       { key: "address", label: "Address" },
       { key: "mobile", label: "Mobile Number" },
       { key: "requirement", label: "Requirement" },
+      { key: "rate", label: "Rate" },
       { key: "status", label: "Status" },
     ];
 
@@ -60,13 +46,15 @@ export default function CreateCustomer() {
       return;
     }
 
+    if (Number.isNaN(Number(form.rate)) || Number(form.rate) < 0) {
+      setError("Rate must be a valid number");
+      return;
+    }
+
     try {
       await api.post(
         "/customers/create",
-        {
-          ...form,
-          rate,
-        },
+        form,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -82,6 +70,7 @@ export default function CreateCustomer() {
         address: "",
         mobile: "",
         requirement: "",
+        rate: "",
         status: "confirmed",
         followUpDate: "",
       });
@@ -130,7 +119,7 @@ export default function CreateCustomer() {
             className="input"
           />
 
-          <textarea
+          <input
             name="requirement"
             value={form.requirement}
             placeholder="Requirement"
@@ -140,9 +129,14 @@ export default function CreateCustomer() {
           />
 
           <input
-            value={rate}
-            disabled
-            className="w-full cursor-not-allowed rounded-lg border bg-gray-200 p-3"
+            type="number"
+            name="rate"
+            value={form.rate}
+            placeholder="Rate"
+            onChange={change}
+            min="0"
+            required
+            className="input"
           />
 
           <select

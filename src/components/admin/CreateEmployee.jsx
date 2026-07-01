@@ -6,7 +6,6 @@ export default function CreateEmployee() {
 
 
     const [showEmployee, setShowEmployee] = useState(false);
-    const [showRate, setShowRate] = useState(false);
 
 
     const [users, setUsers] = useState([]);
@@ -17,8 +16,6 @@ export default function CreateEmployee() {
     const [password, setPassword] = useState("");
     const [role, setRole] = useState("sales");
 
-
-    const [rate, setRate] = useState("");
 
     const [loading, setLoading] = useState(false);
 
@@ -167,70 +164,6 @@ export default function CreateEmployee() {
 
 
 
-    const saveRate = async () => {
-
-
-        try {
-
-
-            await api.post(
-
-                "/rate",
-
-                {
-
-                    amount: rate
-
-                },
-
-                {
-
-                    headers: {
-
-                        Authorization:
-                            `Bearer ${localStorage.getItem("token")}`
-
-                    }
-
-                }
-
-            );
-
-
-
-            alert("Rate saved");
-
-            setShowRate(false);
-
-
-
-        }
-
-
-        catch (err) {
-
-
-            alert(
-
-                err.response?.data?.message ||
-                "Failed to save rate"
-
-            );
-
-
-        }
-
-
-    };
-
-
-
-
-
-
-
-
-
 
     const deleteUser = async (id) => {
 
@@ -340,28 +273,6 @@ export default function CreateEmployee() {
 
 
 
-
-
-                <button
-
-
-                    onClick={() => setShowRate(true)}
-
-
-                    className="
-                bg-green-500
-                text-white
-                px-6
-                py-3
-                rounded-lg
-                font-bold
-                "
-
-                >
-
-                    Set Rate
-
-                </button>
 
 
             </div>
@@ -766,118 +677,6 @@ export default function CreateEmployee() {
 
 
             }
-            {/* RATE MODAL */}
-
-            {
-
-                showRate &&
-
-
-                <div className="
-            fixed
-            inset-0
-            bg-black/50
-            backdrop-blur-sm
-            flex
-            items-center
-            justify-center
-            z-50
-            ">
-                    <div className="
-                bg-white
-                p-6
-                rounded-xl
-                w-[90%]
-                max-w-md
-                ">
-
-                        <h2 className="
-                    text-xl
-                    font-bold
-                    mb-5
-                    ">
-
-                            Set Rate
-
-                        </h2>
-
-                        <input
-
-
-                            type="number"
-
-
-                            value={rate}
-
-
-                            onChange={
-                                e => setRate(e.target.value)
-                            }
-
-
-                            placeholder="Enter rate"
-
-
-                            className="
-                    input
-                    mb-4
-                    "
-
-
-                        />
-
-                        <button
-
-
-                            onClick={saveRate}
-
-
-                            className="
-                    bg-green-500
-                    text-white
-                    px-5
-                    py-2
-                    rounded
-                    "
-
-                        >
-
-
-                            Save
-
-
-                        </button>
-
-
-
-
-
-                        <button
-
-                            onClick={() => setShowRate(false)}
-
-                            className="
-                    ml-4
-                    "
-
-                        >
-
-                            Close
-
-                        </button>
-
-
-
-                    </div>
-
-
-                </div>
-
-
-            }
-
-
-
         </div>
 
 
